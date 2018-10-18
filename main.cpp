@@ -1,14 +1,12 @@
-#include <lemon/list_graph.h>
-#include <lemon/maps.h>
-#include <lemon/core.h>
+#include "aux.h"
 
 using namespace std;
 using namespace lemon;
 
 ListGraph *umstBacktrack(ListGraph *graph,
-                         ListGraph::EdgeMap<vector<int>> &delay,
-                         ListGraph::NodeMap<float> &cost,
-                         float budget)
+                     ECostMap &delay,
+                     NCostMap &cost,
+                     float budget)
 {
     return nullptr;
 }
@@ -19,11 +17,9 @@ int main()
     //********************* INICIALIZA GRAFO *********************//
     //************************************************************//
     // Grafo
-    typedef ListGraph Graph;
-    Graph g;
+    ListGraph g;
 
     // Vertices
-    typedef ListGraph::Node Node;
     Node s = g.addNode();
     Node v1 = g.addNode();
     Node v2 = g.addNode();
@@ -32,7 +28,6 @@ int main()
     Node t = g.addNode();
 
     // Arestas
-    typedef ListGraph::Edge Edge;
     Edge e1 = g.addEdge(s, v1);
     Edge e2 = g.addEdge(s, v2);
     Edge e3 = g.addEdge(v1, v2);
@@ -45,7 +40,6 @@ int main()
     Edge e10 = g.addEdge(v4, t);
 
     // Matriz de atrasos
-    typedef ListGraph::EdgeMap<vector<int>> ECostMap;
     ECostMap delay(g);
     delay.set(e1, {10, 5, 1});
     delay.set(e2, {9, 6, 3});
@@ -59,7 +53,6 @@ int main()
     delay.set(e10, {-1, -5, -10});
 
     // Vetor de custos
-    typedef ListGraph::NodeMap<float> NCostMap;
     NCostMap cost(g);
     cost.set(s, 0.87865483);
     cost.set(v1, 0.76763708);
@@ -70,6 +63,18 @@ int main()
 
     // Estimativa de custo
     float budget = 10;
+
+    // ************************ Testes ***************************//
+    typedef ListGraph::EdgeIt EdgeIt;
+    typedef ListGraph::NodeIt NodeIt;
+    NodeIt node(g, s);
+    upgradeNode(&g, delay, cost, budget, node);
+    for (EdgeIt e(g); e!=INVALID; ++e)
+    {
+        cout << "Edge " << g.id(e)+1 << ": " << delay[e][0] << endl;
+    }
+    cout << "Budget: " << budget << endl;
+
 
     //************************************************************//
     //********************* APLICA ALGORITMOS ********************//
