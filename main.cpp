@@ -69,6 +69,8 @@ int main()
     typedef ListGraph::NodeIt NodeIt;
     NodeIt node(g, s);
     upgradeNode(&g, delay, cost, budget, node);
+    upgradeNode(&g, delay, cost, budget, node);
+    upgradeNode(&g, delay, cost, budget, node);
     for (EdgeIt e(g); e!=INVALID; ++e)
     {
         cout << "Edge " << g.id(e)+1 << ": " << delay[e][0] << endl;

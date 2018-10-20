@@ -9,8 +9,16 @@ void upgradeNode(Graph *graph, ECostMap &delay, NCostMap &cost, float &budget, N
     budget -= cost[node];
     for (lemon::ListGraph::IncEdgeIt e(graph[0], node); e != lemon::INVALID; ++e)
     {
-      //delay[e][0] = delay[e][1];
-      // DIMINUI O DELAY DA ARESTA e.
+      if (delay[e][0] > delay[e][1])
+      {
+        delay[e][0] = delay[e][1];
+      }
+      else if (delay[e][0] > delay[e][2])
+      {
+        delay[e][0] = delay[e][2];
+      }
+      else
+        continue;
     }
   }
 }
