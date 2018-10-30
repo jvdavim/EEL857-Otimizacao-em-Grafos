@@ -3,12 +3,50 @@
 using namespace std;
 using namespace lemon;
 
-ListGraph *umstBacktrack(ListGraph *graph,
-                     ECostMap &delay,
-                     NCostMap &cost,
-                     float budget)
+int umstBacktrack(ListGraph *graph,
+                  EDelayMap &delay,
+                  NCostMap &cost,
+                  EBoolMap &tree,
+                  float budget)
 {
-    return nullptr;
+    // Inicializa custo minimo e custo atual
+    float minCost = 3.402823 * pow(10, 38);
+    float curCost;
+
+    // Inicializa mapa de arestas melhoradas
+    ECostMap upEdges(*graph);
+    for (EdgeIt e(*graph); e != INVALID; ++e)
+    {
+        upEdges[e] = 0;
+    }
+
+    // Inicializa árvore geradora atual
+    EBoolMap curTree(*graph);
+
+    // Iterador
+    int it = 0;
+
+    while (it < 2)
+    {
+        for (NodeIt n(*graph); n != INVALID; ++n)
+        {
+            upgradeNode(graph, upEdges, cost, budget, n);
+            ECostMap curDelay(*graph);
+            for (EdgeIt e(*graph); e != INVALID; ++e)
+            {
+                curDelay[e] = delay[e][upEdges[e]];
+            }
+
+            curCost = kruskal(*graph, curDelay, curTree);
+            if (curCost < minCost)
+            {
+                minCost = curCost;
+                mapCopy(*graph, curTree, tree);
+            }
+        }
+        it++;
+    }
+    return minCost;
 }
 
 int main()
@@ -31,26 +69,24 @@ int main()
     Edge e1 = g.addEdge(s, v1);
     Edge e2 = g.addEdge(s, v2);
     Edge e3 = g.addEdge(v1, v2);
-    Edge e4 = g.addEdge(v2, v1);
-    Edge e5 = g.addEdge(v1, v3);
-    Edge e6 = g.addEdge(v3, v2);
-    Edge e7 = g.addEdge(v2, v4);
-    Edge e8 = g.addEdge(v4, v3);
-    Edge e9 = g.addEdge(v3, t);
-    Edge e10 = g.addEdge(v4, t);
+    Edge e4 = g.addEdge(v1, v3);
+    Edge e5 = g.addEdge(v3, v2);
+    Edge e6 = g.addEdge(v2, v4);
+    Edge e7 = g.addEdge(v4, v3);
+    Edge e8 = g.addEdge(v3, t);
+    Edge e9 = g.addEdge(v4, t);
 
     // Matriz de atrasos
-    ECostMap delay(g);
+    EDelayMap delay(g);
     delay.set(e1, {10, 5, 1});
-    delay.set(e2, {9, 6, 3});
+    delay.set(e2, {-50, -60, -81});
     delay.set(e3, {8, 4, 2});
-    delay.set(e4, {7, 4, 2});
-    delay.set(e5, {-6, -12, -20});
-    delay.set(e6, {-23, -24, -25});
-    delay.set(e7, {4, 1, -1});
-    delay.set(e8, {31, 10, 9});
-    delay.set(e9, {12, 4, 1});
-    delay.set(e10, {-1, -5, -10});
+    delay.set(e4, {-6, -12, -20});
+    delay.set(e5, {-23, -24, -25});
+    delay.set(e6, {4, 1, -1});
+    delay.set(e7, {31, 10, 9});
+    delay.set(e8, {12, 4, -200});
+    delay.set(e9, {-4, -8, -13});
 
     // Vetor de custos
     NCostMap cost(g);
@@ -64,19 +100,29 @@ int main()
     // Estimativa de custo
     float budget = 10;
 
-    // ************************ Testes ***************************//
-    typedef ListGraph::EdgeIt EdgeIt;
-    typedef ListGraph::NodeIt NodeIt;
-    NodeIt node(g, s);
-    upgradeNode(&g, delay, cost, budget, node);
-    upgradeNode(&g, delay, cost, budget, node);
-    upgradeNode(&g, delay, cost, budget, node);
-    for (EdgeIt e(g); e!=INVALID; ++e)
-    {
-        cout << "Edge " << g.id(e)+1 << ": " << delay[e][0] << endl;
-    }
-    cout << "Budget: " << budget << endl;
+    // Árvore geradora mínima onde ficará armazenado o resultado
+    EBoolMap mst(g);
 
+    // ************************ Testes ***************************//
+    // typedef ListGraph::EdgeIt EdgeIt;
+    // typedef ListGraph::NodeIt NodeIt;
+    // NodeIt node(g, s);
+    // upgradeNode(&g, delay, cost, budget, node);
+    // upgradeNode(&g, delay, cost, budget, node);
+    // upgradeNode(&g, delay, cost, budget, node);
+    // for (EdgeIt e(g); e!=INVALID; ++e)
+    // {
+    //     cout << "Edge " << g.id(e)+1 << ": " << delay[e][0] << endl;
+    // }
+    // cout << "Budget: " << budget << endl;
+
+    float minCost = umstBacktrack(&g, delay, cost, mst, budget);
+    cout << "COST: " << minCost << endl;
+    for (EdgeIt e(g); e != INVALID; ++e)
+    {
+        cout << "Edge " << g.id(e) + 1 << ": " << mst[e] << endl;
+    }
+    // cout << minCost << endl;
 
     //************************************************************//
     //********************* APLICA ALGORITMOS ********************//
