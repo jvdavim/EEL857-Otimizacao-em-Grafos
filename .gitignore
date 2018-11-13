@@ -4,3 +4,5 @@
 *.zip
 
 *.png
+
+python/__pycache__/
