@@ -36,5 +36,4 @@ def brute_force_umst(g, d, c, b):
             minTree = tree
             minSol = sol
 
-    g.set_edge_filter(minTree)
-    return [minDelay, g, minSol]
+    return [minDelay, minTree, minSol]

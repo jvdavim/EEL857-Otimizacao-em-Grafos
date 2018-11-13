@@ -31,10 +31,9 @@ def backtrack_umst(g, d, c, b):
             for e in g.edges():
                 treeDelay += delay[e]*tree[e]
 
-            if (treeDelay <= minDelay):
+            if (treeDelay < minDelay):
                 minDelay = treeDelay
                 minTree = tree
                 minSol = sol
 
-    g.set_edge_filter(minTree)
-    return [minDelay, g, minSol]
+    return [minDelay, minTree, minSol]
