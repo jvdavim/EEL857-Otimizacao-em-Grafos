@@ -1,4 +1,6 @@
-from bruteforce import gt, brute_force_umst
+from aux import gt
+from bruteforce import brute_force_umst
+from backtrack import backtrack_umst
 import time
 
 
@@ -43,7 +45,7 @@ budget = 4
 
 #******************************* BRUTE FORCE TEST *****************************#
 start = time.time()
-umst = brute_force_umst(g, delay, cost, budget)
+umst = backtrack_umst(g, delay, cost, budget)
 end = time.time()
 gt.graph_draw(umst[1], vertex_text=g.vertex_index, vertex_font_size=18,
               output_size=(200, 200), output="mst.png")
