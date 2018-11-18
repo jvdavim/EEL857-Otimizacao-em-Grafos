@@ -1,4 +1,4 @@
-from aux import gt, getDelay, comb
+from aux import gt, get_delay, comb
 
 
 def brute_force_umst(g, d, c, b):
@@ -10,7 +10,7 @@ def brute_force_umst(g, d, c, b):
     cb = b
 
     # first value ------------------------------------------
-    delay = getDelay(g, d, domain[0])
+    delay = get_delay(g, d, domain[0])
 
     minTree = gt.min_spanning_tree(g, weights=delay)
     minDelay = 0
@@ -24,7 +24,7 @@ def brute_force_umst(g, d, c, b):
         for i in range(n):
             cb -= c[g.vertex(i)]*sol[i]
 
-        delay = getDelay(g, d, sol)
+        delay = get_delay(g, d, sol)
 
         tree = gt.min_spanning_tree(g, weights=delay)
         treeDelay = 0
