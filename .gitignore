@@ -6,3 +6,5 @@
 *.png
 
 python/__pycache__/
+
+*.in
