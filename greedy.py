@@ -12,46 +12,42 @@ v_list, cost, delay = get_instance(g)
 # add budget
 budget = 10
 
-best = [float('Inf'), None, None]
+best = [float('Inf'), None]
 
-def greedy(g, d, c, b):
-#    # set number of vertices
-#    n = len(g.get_vertices())
-#    # set upgrades vector
-#    upgrade = [0]*n
-#
-#    while (b >= 0):
-#        nextUpgrade = g.vertex(0)
-#        minTotalDelay = float('inf')
-#        cost = 0
-#        for v in g.vertices():
-#            totalDelay = 0
-#            for e in v.out_edges():
-#                totalDelay += d[e][upgrade[int(v)]]
-#            if (totalDelay < minTotalDelay and (b-c[v]) >= 0):
-#                cost = c[v]
-#                minTotalDelay = totalDelay
-#                nextUpgrade = v
-# 
-#        if (cost > 0):
-#            b -= cost
-#            upgrade[int(nextUpgrade)] += 1
-#        else:
-#            break
-#
-#    delay = get_delay(g, d, upgrade)
-#    tree = gt.min_spanning_tree(g, weights=delay)
-#    treeDelay = 0
-#    for e in g.edges():
-#        treeDelay += delay[e]*tree[e]
+def greedy(graph, delay, cost, budget):
+    # set number of vertices
+    n = len(graph.get_vertices())
+    # set upgrades vector
+    upgrade = [0]*n
 
-    return []
+    while (True):
+        vu = graph.vertex(0)
+        mincost = cost[vu]
+        for v in graph.vertices():
+            if (cost[v] <= budget):
+                if (cost[v] < mincost and upgrade[int(v)] == 0):
+                    mincost = cost[v]
+                    vu = graph.vertex(v)
+        if (mincost > budget):
+            break
+        else:
+            upgrade[int(vu)] = 1
+            budget -= cost[vu]
+
+    d = get_delay(graph, delay, upgrade)
+    tree = gt.min_spanning_tree(graph, weights=d)
+    tdelay = sum([a*b for a,b in zip(list(tree),list(d))])
+    
+    best[0] = tdelay
+    best[1] = upgrade
+
+    return 0
 
 
  #******************************** BACKTRACK  *********************************#
 print("Running greedy algorithm...")
 start = time.time()
-# CHAMAR A FUNCAO
+greedy(g, delay, cost, budget)
 end = time.time()
 print("MST delay: ", best[0])
 print("Upgraded nodes: ", best[1])

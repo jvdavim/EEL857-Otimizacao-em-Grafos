@@ -12,7 +12,7 @@ v_list, cost, delay = get_instance(g)
 # add budget
 budget = 10
 
-best = [float('Inf'), None, None]
+best = [float('Inf'), None]
 
 def backtrack(graph, delay, cost, budget, upgrade, i, pcost):
     global best
