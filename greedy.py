@@ -10,7 +10,7 @@ g = gt.Graph(directed=False)
 v_list, cost, delay = get_instance(g)
 
 # add budget
-budget = 10
+budget = 30
 
 best = [float('Inf'), None]
 
@@ -44,14 +44,14 @@ def greedy(graph, delay, cost, budget):
     return 0
 
 
- #******************************** BACKTRACK  *********************************#
+#********************************** GREEDY  **********************************#
 print("Running greedy algorithm...")
 start = time.time()
 greedy(g, delay, cost, budget)
 end = time.time()
 print("MST delay: ", best[0])
-print("Upgraded nodes: ", best[1])
+#print("Upgraded nodes: ", best[1])
 print("Elapsed time: ", end-start)
- #*****************************************************************************#
+#*****************************************************************************#
 
 

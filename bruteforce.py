@@ -35,12 +35,12 @@ def brute_force(graph, delay, cost, budget, upgrade, i, pcost):
     return 0
 
 
- #******************************** BACKTRACK  *********************************#
+#******************************** BACKTRACK  *********************************#
 print("Running brute force algorithm...")
 start = time.time()
 brute_force(g, delay, cost, budget, [-1]*len(list(g.vertices())), 0, 0)
 end = time.time()
 print("MST delay: ", best[0])
-print("Upgraded nodes: ", best[1])
+#print("Upgraded nodes: ", best[1])
 print("Elapsed time: ", end-start)
- #*****************************************************************************#
+#*****************************************************************************#

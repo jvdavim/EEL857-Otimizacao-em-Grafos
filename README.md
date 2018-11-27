@@ -3,6 +3,11 @@
 
   A formalização do problema pode ser encontrada em https://doi.org/10.1016/j.cor.2017.01.014
 
-  O código é totalemente desenvolvido em C++ com o auxílio da biblioteca Lemon, que pode ser acessada em https://lemon.cs.elte.hu/trac/lemon
+  O código é totalemente desenvolvido em Python 3.6.7 com o auxílio da biblioteca graph-tool, que pode ser acessada em https://graph-tool.skewed.de/
 
-  O código é compilado com a versão 5.4.0 do compilador g++ da seguinte forma: g++ -std=c++11 *.cpp -o main
+  Para rodar os algoritmos é preciso efetuar os seguintes passos:
+    1. Colocar o arquivo da instância no mesmo diretório do código do algoritmo escolhido.
+    2. Renomear o arquivo da instância para "instance.in" sem as aspas.
+    3. Rodar o algoritmo: python3 <nome_do_algoritmo>.py
+
+  Alguns exemplos de instâncias podem ser encontrados na pasta "in".

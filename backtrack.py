@@ -36,12 +36,12 @@ def backtrack(graph, delay, cost, budget, upgrade, i, pcost):
     return 0
 
 
- #******************************** BACKTRACK  *********************************#
+#******************************** BACKTRACK  *********************************#
 print("Running backtrack algorithm...")
 start = time.time()
 backtrack(g, delay, cost, budget, [-1]*len(list(g.vertices())), 0, 0)
 end = time.time()
 print("MST delay: ", best[0])
-print("Upgraded nodes: ", best[1])
+#print("Upgraded nodes: ", best[1])
 print("Elapsed time: ", end-start)
- #*****************************************************************************#
+#*****************************************************************************#
